@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Concise Handlebars.js</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.1.2/handlebars.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.1/gsap.min.js"></script>
+</head>
+
+<body>
+
+  <script>
+    let playerData = 'data.json'; 
+  </script>
+
+  <div class="wrapper">
+    <div id="root"></div>
+  </div>
+
+
+  <script id="player" type="text/template">
+        {{#people}}
+            <div class="player__wrapper grid">
+              <div class="player__photo">
+                <img src="{{photo}}">
+              </div>
+              <div class="player__nickname bg--green relative">{{nickName}}</div>
+              <div class="player__name bg--black text--white"># {{name}}</div>
+            </div>
+        {{/people}}
+    </script>
+  <script>
+
+    var appendPlayer = function (playerData, playerTemplate, root) {
+      $.getJSON(playerData, function (data) {
+        var template = $(playerTemplate).html();
+        var info = Handlebars.compile(template)(data);
+        $(root).append(info);
+      });
+    }
+
+    appendPlayer('data.json', '#player', '#root');
+    var timeline = new TimelineLite();
+    timeline.staggerFrom($('#root'), 1, { x: -1000 }, 0.25);
+  </script>
+</body>
+
+</html>
